@@ -36,7 +36,7 @@ def handle_response(message) -> str:
                "/doomer megumin\n/doomer nom```"
 
     else:
-        return "try /doomer help for all available commands"
+        return "try `/doomer help` for all available commands"
 
 def get_link(api_url):
     response = requests.get(api_url)
