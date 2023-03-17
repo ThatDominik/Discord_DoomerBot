@@ -1,0 +1,5 @@
+API = "https://api.waifu.pics/"
+WAIFU = API + "sfw/waifu"
+BONK = API + "sfw/bonk"
+NEKO = API + "nsfw/neko"
+HENTAI = API + "nsfw/waifu"
