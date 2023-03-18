@@ -3,27 +3,10 @@ import requests
 import json
 
 def handle_response(message) -> str:
-    message = message.lower()
-    if message == "waifu":
-        return get_link(constants.WAIFU)
-    if message == "neko":
-        return get_link(constants.NEKO)
-    if message == "bonk":
-        return get_link(constants.BONK)
-    if message == "hentai":
-        return get_link(constants.HENTAI)
-    if message == "trap":
-        return get_link(constants.TRAP)
-    if message == "uwu":
-        return get_link(constants.UWU)
-    if message == "awoo":
-        return get_link(constants.AWOO)
-    if message == "megumin":
-        return get_link(constants.MEGUMIN)
-    if message == "nom":
-        return get_link(constants.NOM)
-    if message == "blowjob":
-        return get_link(constants.BLOWJOB)
+    message = message.upper()
+
+    if message in constants.commands:
+        return get_link(constants.commands[message])
     if message == "help":
         return "```available commands:\n/doomer waifu\n" \
                "/doomer bonk\n" \
@@ -34,7 +17,6 @@ def handle_response(message) -> str:
                "/doomer trap\n" \
                "/doomer awoo\n" \
                "/doomer megumin\n/doomer nom```"
-
     else:
         return "try `/doomer help` for all available commands"
 
