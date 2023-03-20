@@ -7,7 +7,7 @@ def handle_response(message) -> str:
 
     if message in constants.commands:
         return get_link(constants.commands[message])
-    if message == "help":
+    if message == "HELP":
         return "```available commands:\n/doomer waifu\n" \
                "/doomer bonk\n" \
                "/doomer hentai\n" \
