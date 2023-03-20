@@ -3,7 +3,8 @@ from discord import app_commands
 import responses
 import os
 from dotenv import load_dotenv, find_dotenv
-
+import doomer_bot
+from discord.ext import tasks
 
 async def send_message(message, user_message):
     try:
@@ -17,19 +18,25 @@ def save_channel_id(channel_id):
     # save it somewhere
     return
 
+def daily_task():
+    # Do something every day at 12:00
+    print("Running daily task...")
 
 def run_bot():
     load_dotenv(find_dotenv())
 
     intents = discord.Intents.default()
     intents.message_content = True
-    client = discord.Client(intents=intents)
+    client = doomer_bot.DoomerBot(intents=intents)
+    #client = discord.Client(intents=intents)
     tree = app_commands.CommandTree(client)
 
     @client.event
     async def on_ready():
         await tree.sync()
         print(f'{client.user}is now running')
+
+        #schedule.every().day.at("00:39").do(daily_task)
 
     @client.event
     async def on_message(message):
@@ -60,4 +67,17 @@ def run_bot():
         except Exception as e:
             print(e)
 
+    """
+    @tasks.loop(seconds=5.0)
+    async def printer():
+        print("test")
+
+    """
+
     client.run(os.getenv("TOKEN"))
+
+    #while True:
+        # Check if there are any scheduled tasks to run
+        #schedule.run_pending()
+        # Sleep for a short time to avoid using too much CPU
+        #time.sleep(1)
