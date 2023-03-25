@@ -1,12 +1,4 @@
-import DoomerBot
-import discord
-import doomer_bot
-import os
-from dotenv import load_dotenv, find_dotenv
+import function_controller
 
 if __name__ == '__main__':
-
-    #client = doomer_bot.DoomerBot(intents=discord.Intents.default())
-    #load_dotenv(find_dotenv())
-    #client.run(os.getenv("TOKEN"))
-    DoomerBot.run_bot()
+    function_controller.run_bot()

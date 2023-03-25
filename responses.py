@@ -2,11 +2,14 @@ import constants
 import requests
 import json
 
-def handle_response(message) -> str:
+
+def handle_response(message, user) -> str:
     message = message.upper()
 
     if message in constants.commands:
-        return get_link(constants.commands[message])
+        command = constants.commands[message]
+        # log_social_credits(user, command["karma"])
+        return get_link(command["endpoint"])
     if message == "help":
         return "```available commands:\n/doomer waifu\n" \
                "/doomer bonk\n" \
@@ -19,6 +22,7 @@ def handle_response(message) -> str:
                "/doomer megumin\n/doomer nom```"
     else:
         return "try `/doomer help` for all available commands"
+
 
 def get_link(api_url):
     response = requests.get(api_url)
