@@ -11,6 +11,7 @@ def handle_response(message, user) -> str:
         # log_social_credits(user, command["karma"])
         return get_link(command["endpoint"])
     if message == "help":
+
         return "```available commands:\n/doomer waifu\n" \
                "/doomer bonk\n" \
                "/doomer hentai\n" \
