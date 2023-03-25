@@ -70,6 +70,6 @@ def run_bot():
             response_text = responses.handle_response(category, interaction.user)
             await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
         else:
-            await interaction.response.send_message("This command can only be used on NSFW channels.......")
+            await interaction.response.send_message("This command can only be used in NSFW channels.")
 
     client.run(os.getenv("TOKEN"))
