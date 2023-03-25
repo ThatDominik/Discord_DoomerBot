@@ -32,6 +32,6 @@ def get_link(api_url):
         if url:
             return url
         else:
-            return 'URL not found in API response'
+            return 'URL not found in API response!'
     else:
-        return 'Failed to retrieve data from API'
+        return 'Failed to retrieve data from API!'

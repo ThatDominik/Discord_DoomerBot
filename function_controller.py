@@ -1,16 +1,10 @@
+from typing import Literal
 import discord
+from discord import app_commands
 import responses
 import os
 from dotenv import load_dotenv, find_dotenv
 import doomer_bot
-
-
-async def send_message(message, user_message, user):
-    try:
-        response = responses.handle_response(user_message, user)
-        await message.channel.send(response)
-    except Exception as e:
-        print(e)
 
 
 def save_channel_id(channel_id):
@@ -33,7 +27,7 @@ def remove_channel_id(channel_id):
         for id in channels:
             file.write(str(id)+"\n")
         file.close()
-    return "This channel will no longer receive daily waifu pictures"
+    return "This channel will no longer receive daily waifu pictures."
 
 
 def load_channel_id():
@@ -52,19 +46,11 @@ def run_bot():
     load_dotenv(find_dotenv())
 
     @client.event
-    async def on_message(message):
-        if message.author == client.user:
-            return
-        username = str(message.author)
-        user_message = str(message.content)
-        channel = str(message.channel)
-
-        if message.content.startswith("/doomer") & message.channel.nsfw:
-            user_message = user_message[8:]
-            await send_message(message, user_message, message.author)
+    async def on_guild_join(guild):
+        print("bot joined a nev server")
 
     @client.tree.command(name="register", description="Registers this channel for daily waifu feed.")
-    async def register_command(interaction):
+    async def register_command(interaction: discord.Interaction):
         if interaction.channel.nsfw:
             await interaction.response.send_message(save_channel_id(interaction.channel_id))
         else:
@@ -73,5 +59,17 @@ def run_bot():
     @client.tree.command(name="unsubscribe", description="Unsubscribes this channel from daily waifu feed.")
     async def unsubscribe(interaction: discord.Interaction):
         await interaction.response.send_message(remove_channel_id(interaction.channel_id))
+
+    @client.tree.command(name="pic", description="Receive a spicy picture of the selected category.")
+    @app_commands.describe(category="What can I offer you")
+    async def picture(
+            interaction: discord.Interaction,
+            category: Literal['waifu', 'uwu', 'hentai', 'neko', 'trap', 'blowjob', 'awoo', 'megumin', 'bonk', 'nom']
+    ):
+        if interaction.channel.nsfw:
+            response_text = responses.handle_response(category, interaction.user)
+            await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
+        else:
+            await interaction.response.send_message("This command can only be used on NSFW channels.......")
 
     client.run(os.getenv("TOKEN"))
