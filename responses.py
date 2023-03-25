@@ -2,12 +2,16 @@ import constants
 import requests
 import json
 
-def handle_response(message) -> str:
+
+def handle_response(message, user) -> str:
     message = message.upper()
 
     if message in constants.commands:
-        return get_link(constants.commands[message])
-    if message == "HELP":
+        command = constants.commands[message]
+        # log_social_credits(user, command["karma"])
+        return get_link(command["endpoint"])
+    if message == "help":
+
         return "```available commands:\n/doomer waifu\n" \
                "/doomer bonk\n" \
                "/doomer hentai\n" \
@@ -20,6 +24,7 @@ def handle_response(message) -> str:
     else:
         return "try `/doomer help` for all available commands"
 
+
 def get_link(api_url):
     response = requests.get(api_url)
     if response.status_code == 200:
@@ -28,6 +33,6 @@ def get_link(api_url):
         if url:
             return url
         else:
-            return 'URL not found in API response'
+            return 'URL not found in API response!'
     else:
-        return 'Failed to retrieve data from API'
+        return 'Failed to retrieve data from API!'
