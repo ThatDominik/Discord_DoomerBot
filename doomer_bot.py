@@ -12,9 +12,6 @@ class DoomerBot(discord.Client):
         super().__init__(*args, **kwargs)
         self.tree = app_commands.CommandTree(self)
 
-        utc = datetime.timezone.utc
-        time = datetime.time(hour=12, minute=50, tzinfo=utc)
-
     async def setup_hook(self) -> None:
         self.daily_feed_send.start()
 
