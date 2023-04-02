@@ -25,16 +25,21 @@ def handle_response(message, user_id) -> str:
 
 
 def log_karma(user_id, karma):
-    with open(os.getenv("KARMA_LOG"), "w+") as file:
+    # I have to open the file twice, because in r+ mode it appends the json to the existing file when I want to rewrite.
+    with open(os.getenv("KARMA_LOG"), "r") as file:
         users_str = file.read()
+
+    with open(os.getenv("KARMA_LOG"), "w") as file:
         if len(users_str) == 0:
             json.dump({user_id: karma}, file)
         else:
+            id_string = str(user_id)
             users = json.loads(users_str)
-            if user_id in users:
-                users[user_id] += karma
+            if id_string in users:
+                users[id_string] += karma
             else:
-                users[user_id] = karma
+                users[id_string] = karma
+            json.dump(users, file)
         file.close()
 
 

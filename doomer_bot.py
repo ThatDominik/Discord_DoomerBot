@@ -21,8 +21,7 @@ class DoomerBot(discord.Client):
         ids = []
         for guild in self.guilds:
             ids.append(int(guild.id))
-        guild = discord.Object(id=ids)
-        self.tree.copy_global_to(guild=discord.Object(id=ids))
+        self.tree.copy_global_to(guilds=discord.Object(id=ids)) # for multiple guilds need to change guild to guilds
         """
         # self.tree.clear_commands(guild=None) # pro vymazani commandu
         # await self.tree.sync(guild=None)
