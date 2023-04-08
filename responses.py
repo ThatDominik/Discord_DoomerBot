@@ -43,6 +43,15 @@ def log_karma(user_id, karma):
         file.close()
 
 
+def get_karma(user_id):
+    with open(os.getenv("KARMA_LOG"), "r") as file:
+        karma_list = file.read()
+        users = json.loads(karma_list)
+        if str(user_id) in users:
+            return users[str(user_id)]
+        return 0
+
+
 def get_link(api_url):
     response = requests.get(api_url)
     if response.status_code == 200:
