@@ -70,7 +70,7 @@ def run_bot():
             response_text = responses.handle_response(category, interaction.user.id)
             await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
         else:
-            await interaction.response.send_message("This command can only be used in NSFW channels.")
+            await interaction.response.send_message("This command can only be used on NSFW channels.")
 
     @client.tree.command(name="gif", description="Receive a spicy GIF of the selected category.")
     @app_commands.describe(category="What can I offer you?")
@@ -84,12 +84,29 @@ def run_bot():
         else:
             await interaction.response.send_message("This command can only be used in NSFW channels.")
 
+    @client.tree.command(name="halal_check", description="Check how halal or haram your friend is.")
+    @app_commands.describe(victim="Person you want to halal check.")
+    async def halal_check(interaction: discord.Interaction, victim: discord.Member):
+        karma = responses.get_karma(victim.id)
+        message = f"{victim.name}'s karma is {karma}.\n"
+        if karma >= 0:
+            if karma > 50:
+                message += f"{victim.name} is a very halal!"
+            else:
+                message += f"{victim.name} is halal approved!"
+        else:
+            if karma < -50:
+                message += f"By Allah, behave your self {victim.name}! Seriously haram!"
+            else:
+                message += f"{victim.name} is haram!"
+
+        await interaction.response.send_message(message)
+
     '''
     @client.tree.command(name="shutdown", description="Shutdown the bot.", guild=discord.Object(id=1086024945928241303))
     async def shutdown(interaction: discord.Interaction):
 
         await client.close()
-
     '''
 
     client.run(os.getenv("TOKEN"))
