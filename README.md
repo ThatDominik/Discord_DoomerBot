@@ -2,14 +2,14 @@
 Simple discord bot for sharing lewd anime images from https://waifu.pics/docs API.
 
 # What do you need to start?
-- Clone this repo on server of your choice.
+- Clone this repo on a server of your choice.
 - Create a .env file in Discord_DoomerBot folder where you need to define the following enviromental variables.
 ```
 TOKEN = "YOUR DISCORD BOT TOKEN"
 DAILY_CHANNELS = "channel_id.txt"
 KARMA_LOG = "karma_log.txt"
-// The .txt files for channels and karma log should generate automagically, but I didn't test that.
 ```
+The .txt files for channels and karma log should generate automagically, but I didn't test that.
 - You will need to install discord.py and python-dotenv packages with the following commands.
 ``` 
 pip install discord.py
