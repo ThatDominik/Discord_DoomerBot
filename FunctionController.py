@@ -105,7 +105,6 @@ def get_image_link(api_url):
 
 
 def is_repeated(image_url):
-    print(last_images)
     if image_url in last_images:
         return True
 
