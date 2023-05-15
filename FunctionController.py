@@ -2,7 +2,12 @@ import Constants
 import requests
 import json
 import os
+from dotenv import load_dotenv, find_dotenv
 
+load_dotenv(find_dotenv())
+last_images = []
+image_buffer = int(os.getenv("IMAGE_REPEAT_BUFFER"))
+var =3
 
 def save_channel_id(channel_id):
     if channel_id in load_channel_id():
@@ -90,10 +95,24 @@ def get_image_link(api_url):
         json_data = json.loads(response.text)
         url = json_data.get('url', None)
         if url:
-            return url
+            if not is_repeated(url):
+                return url
+            return get_image_link(api_url)
         else:
             return 'URL not found in API response!'
     else:
         return 'Failed to retrieve data from API!'
+
+
+def is_repeated(image_url):
+    print(last_images)
+    if image_url in last_images:
+        return True
+
+    if len(last_images) >= image_buffer:
+        del last_images[0]
+
+    last_images.append(image_url)
+    return False
 
 
