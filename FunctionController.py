@@ -1,15 +1,47 @@
-import constants
+import Constants
 import requests
 import json
 import os
 
 
+def save_channel_id(channel_id):
+    if channel_id in load_channel_id():
+        return "This channel is already subscribed to the daily waifu feed."
+
+    with open(os.getenv("DAILY_CHANNELS"), "a") as file:
+        file.write(str(channel_id)+"\n")
+        file.close()
+    return "You have subscribed to daily waifu picture feed.\nEnjoy!"
+
+
+def remove_channel_id(channel_id):
+    channels = load_channel_id()
+    if channel_id not in channels:
+        return "This channel is not subscribed to daily waifu feed."
+
+    channels.remove(channel_id)
+    with open(os.getenv("DAILY_CHANNELS"), "w") as file:
+        for id in channels:
+            file.write(str(id)+"\n")
+        file.close()
+    return "This channel will no longer receive daily waifu pictures."
+
+
+def load_channel_id():
+    with open(os.getenv("DAILY_CHANNELS"), "r") as file:
+        id_array = file.readlines()
+        for i in range(len(id_array)):
+            id_array[i] = int(id_array[i].strip())
+        file.close()
+    return id_array
+
+
 def handle_response(message, user_id) -> str:
     message = message.upper()
-    if message in constants.commands:
-        command = constants.commands[message]
+    if message in Constants.commands:
+        command = Constants.commands[message]
         log_karma(user_id, command["karma"])
-        return get_link(command["endpoint"])
+        return get_image_link(command["endpoint"])
     if message == "help":
         return "```available commands:\n/doomer waifu\n" \
                "/doomer bonk\n" \
@@ -43,7 +75,7 @@ def log_karma(user_id, karma):
         file.close()
 
 
-def get_karma(user_id):
+def get_user_karma(user_id):
     with open(os.getenv("KARMA_LOG"), "r") as file:
         karma_list = file.read()
         users = json.loads(karma_list)
@@ -52,7 +84,7 @@ def get_karma(user_id):
         return 0
 
 
-def get_link(api_url):
+def get_image_link(api_url):
     response = requests.get(api_url)
     if response.status_code == 200:
         json_data = json.loads(response.text)
@@ -63,3 +95,5 @@ def get_link(api_url):
             return 'URL not found in API response!'
     else:
         return 'Failed to retrieve data from API!'
+
+
