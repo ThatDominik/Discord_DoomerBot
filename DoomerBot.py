@@ -1,4 +1,5 @@
 import datetime
+import random
 from discord.ext import tasks
 import discord
 from discord import app_commands
@@ -31,7 +32,7 @@ class DoomerBot(discord.Client):
     async def daily_feed_send(self):
         for channel_id in FunctionController.load_channel_id():
             channel = self.get_channel(channel_id)
-            picture = FunctionController.handle_response("hentai", "doomer")
+            picture = FunctionController.handle_response(random.choice(["hentai", "neko", "trap", "bonk"]), "doomer")
             await channel.send(f"Your daily waifu!\n{picture}")
 
     @daily_feed_send.before_loop

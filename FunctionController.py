@@ -22,14 +22,14 @@ def save_channel_id(channel_id):
 def remove_channel_id(channel_id):
     channels = load_channel_id()
     if channel_id not in channels:
-        return "This channel is not subscribed to daily waifu feed."
+        return "This channel is not subscribed to daily feed."
 
     channels.remove(channel_id)
     with open(os.getenv("DAILY_CHANNELS"), "w") as file:
         for id in channels:
             file.write(str(id)+"\n")
         file.close()
-    return "This channel will no longer receive daily waifu pictures."
+    return "This channel will no longer receive daily spicy pictures."
 
 
 def load_channel_id():

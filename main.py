@@ -18,15 +18,15 @@ if __name__ == '__main__':
         print("bot joined a new server")
 
 
-    @client.tree.command(name="register", description="Registers this channel for daily waifu feed.")
+    @client.tree.command(name="register", description="Registers this channel for daily feed.")
     async def register_command(interaction: discord.Interaction):
         if interaction.channel.nsfw:
             await interaction.response.send_message(FunctionController.save_channel_id(interaction.channel_id))
         else:
-            await interaction.response.send_message("Only NSFW channels can register for daily waifu feed.")
+            await interaction.response.send_message("Only NSFW channels can register for daily feed.")
 
 
-    @client.tree.command(name="unsubscribe", description="Unsubscribes this channel from daily waifu feed.")
+    @client.tree.command(name="unsubscribe", description="Unsubscribes this channel from daily feed.")
     async def unsubscribe(interaction: discord.Interaction):
         await interaction.response.send_message(FunctionController.remove_channel_id(interaction.channel_id))
 
