@@ -60,7 +60,7 @@ if __name__ == '__main__':
     @client.tree.command(name="halal_check", description="Check how halal or haram your friend is.")
     @app_commands.describe(victim="Person you want to halal check.")
     async def halal_check(interaction: discord.Interaction, victim: discord.Member):
-        karma = FunctionController.get_karma(victim.id)
+        karma = FunctionController.get_user_karma(victim.id)
         message = f"{victim.name}'s karma is {karma}.\n"
         if karma >= 0:
             if karma > 50:
