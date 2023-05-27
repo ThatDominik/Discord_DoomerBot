@@ -7,7 +7,7 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 last_images = []
 image_buffer = int(os.getenv("IMAGE_REPEAT_BUFFER"))
-var =3
+
 
 def save_channel_id(channel_id):
     if channel_id in load_channel_id():
@@ -113,5 +113,3 @@ def is_repeated(image_url):
 
     last_images.append(image_url)
     return False
-
-

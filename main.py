@@ -3,6 +3,8 @@ import discord
 from discord import app_commands
 import os
 from dotenv import load_dotenv, find_dotenv
+
+import Constants
 import DoomerBot
 import FunctionController
 
@@ -37,7 +39,7 @@ if __name__ == '__main__':
             interaction: discord.Interaction,
             category: Literal['waifu', 'uwu', 'hentai', 'neko', 'trap', 'awoo', 'megumin']
     ):
-        if interaction.channel.nsfw:
+        if interaction.channel.nsfw or Constants.commands[category.upper()]["karma"] >= 0:
             response_text = FunctionController.handle_response(category, interaction.user.id)
             await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
         else:
@@ -50,7 +52,7 @@ if __name__ == '__main__':
             interaction: discord.Interaction,
             category: Literal['blowjob', 'bonk', 'nom']
     ):
-        if interaction.channel.nsfw:
+        if interaction.channel.nsfw or Constants.commands[category.upper()]["karma"] >= 0:
             response_text = FunctionController.handle_response(category, interaction.user.id)
             await interaction.response.send_message(f'Here, have a {category} GIF!\n{response_text}')
         else:
