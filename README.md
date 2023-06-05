@@ -10,9 +10,9 @@ DAILY_CHANNELS = "channel_id.txt"
 KARMA_LOG = "karma_log.txt"
 IMAGE_REPEAT_BUFFER = 30
 ```
-The .txt files for channels and karma log should generate automagically, but I didn't test that. 
+The .txt files for channels and karma log will generate automagically, but I didn't implement that feature yet, so you will need to create them manually. 
 
-IMAGE_REPEAT_BUFFER specifies the number of previous image links the bot checks new api responses against to prevent 
+IMAGE_REPEAT_BUFFER specifies the number of previous image links the bot checks the new api responses against to prevent 
 repeating the same images.
 - You will need to install discord.py and python-dotenv packages with the following commands.
 ``` 
