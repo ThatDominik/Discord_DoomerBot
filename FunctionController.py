@@ -1,5 +1,4 @@
 import Constants
-import requests
 import json
 import os
 from dotenv import load_dotenv, find_dotenv
@@ -46,19 +45,9 @@ def handle_response(message, user_id) -> str:
     if message in Constants.commands:
         command = Constants.commands[message]
         log_karma(user_id, command["karma"])
-        return get_image_link(command["endpoint"])
-    if message == "help":
-        return "```available commands:\n/doomer waifu\n" \
-               "/doomer bonk\n" \
-               "/doomer hentai\n" \
-               "/doomer blowjob\n" \
-               "/doomer neko\n" \
-               "/doomer uwu\n" \
-               "/doomer trap\n" \
-               "/doomer awoo\n" \
-               "/doomer megumin\n/doomer nom```"
+        return command["client"].get_link(command["category"])
     else:
-        return "try `/doomer help` for all available commands"
+        return "This category is not implemented yet"
 
 
 def log_karma(user_id, karma):
@@ -87,21 +76,6 @@ def get_user_karma(user_id):
         if str(user_id) in users:
             return users[str(user_id)]
         return 0
-
-
-def get_image_link(api_url):
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        json_data = json.loads(response.text)
-        url = json_data.get('url', None)
-        if url:
-            if not is_repeated(url):
-                return url
-            return get_image_link(api_url)
-        else:
-            return 'URL not found in API response!'
-    else:
-        return 'Failed to retrieve data from API!'
 
 
 def is_repeated(image_url):

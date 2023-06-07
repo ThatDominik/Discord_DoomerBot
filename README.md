@@ -1,5 +1,6 @@
 # Discord_DoomerBot
-Simple discord bot for sharing lewd anime images from https://waifu.pics/docs API.
+Simple discord bot for sharing lewd anime images from https://waifu.pics/docs, https://www.nekos.fun/apidoc.html and 
+https://gelbooru.com/.
 
 # What do you need to start?
 - Clone this repo on a server of your choice.
