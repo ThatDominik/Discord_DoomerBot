@@ -35,7 +35,7 @@ if __name__ == '__main__':
     @app_commands.describe(category="What can I offer you?")
     async def picture(
             interaction: discord.Interaction,
-            category: Literal['neko', 'hentai', 'trap', 'blowjob', 'cum', 'lesbian', 'pussy', 'aheago', 'vtuber', 'feet']
+            category: Literal['neko', 'hentai', 'trap', 'blowjob', 'cum', 'lesbian', 'pussy', 'ahegao', 'vtuber', 'feet']
     ):
         if interaction.channel.nsfw:
             response_text = FunctionController.handle_response(category, interaction.user.id)
