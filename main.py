@@ -39,7 +39,7 @@ if __name__ == '__main__':
     ):
         if interaction.channel.nsfw:
             response_text = FunctionController.handle_response(category, interaction.user.id)
-            await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
+            await interaction.response.send_message(f'Here, have a {category}!\n{response_text}')
         else:
             await interaction.response.send_message("This command can only be used on NSFW channels.")
 
@@ -51,7 +51,7 @@ if __name__ == '__main__':
             category: Literal['waifu', 'uwu', 'awoo', 'megumin', 'nom', 'bonk']
     ):
         response_text = FunctionController.handle_response(category, interaction.user.id)
-        await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
+        await interaction.response.send_message(f'Here, have a {category}!\n{response_text}')
 
 
     @client.tree.command(name="halal_check", description="Check how halal or haram your friend is.")
