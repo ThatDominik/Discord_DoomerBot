@@ -3,8 +3,7 @@ import discord
 from discord import app_commands
 import os
 from dotenv import load_dotenv, find_dotenv
-
-import Constants
+import Constants # Not sure why, but I get import error when I delete this. Like WTF is this language
 import DoomerBot
 import FunctionController
 
@@ -13,7 +12,6 @@ if __name__ == '__main__':
     intents.message_content = True
     client = DoomerBot.DoomerBot(intents=intents)
     load_dotenv(find_dotenv())
-
 
     @client.event
     async def on_guild_join(guild):
@@ -33,30 +31,27 @@ if __name__ == '__main__':
         await interaction.response.send_message(FunctionController.remove_channel_id(interaction.channel_id))
 
 
-    @client.tree.command(name="pic", description="Receive a spicy picture of the selected category.")
+    @client.tree.command(name="nsfw", description="Receive a spicy picture or gif from the selected category.")
     @app_commands.describe(category="What can I offer you?")
     async def picture(
             interaction: discord.Interaction,
-            category: Literal['waifu', 'uwu', 'hentai', 'neko', 'trap', 'awoo', 'megumin']
+            category: Literal['neko', 'hentai', 'trap', 'blowjob', 'cum', 'lesbian', 'pussy', 'aheago', 'vtuber', 'feet']
     ):
-        if interaction.channel.nsfw or Constants.commands[category.upper()]["karma"] >= 0:
+        if interaction.channel.nsfw:
             response_text = FunctionController.handle_response(category, interaction.user.id)
-            await interaction.response.send_message(f'Here, have a {category} picture!\n{response_text}')
+            await interaction.response.send_message(f'Here, have a {category}!\n{response_text}')
         else:
             await interaction.response.send_message("This command can only be used on NSFW channels.")
 
 
-    @client.tree.command(name="gif", description="Receive a spicy GIF of the selected category.")
+    @client.tree.command(name="sfw", description="Receive a sfw picture or gif from the selected category.")
     @app_commands.describe(category="What can I offer you?")
-    async def gif(
+    async def picture(
             interaction: discord.Interaction,
-            category: Literal['blowjob', 'bonk', 'nom']
+            category: Literal['waifu', 'uwu', 'awoo', 'megumin', 'nom', 'bonk']
     ):
-        if interaction.channel.nsfw or Constants.commands[category.upper()]["karma"] >= 0:
-            response_text = FunctionController.handle_response(category, interaction.user.id)
-            await interaction.response.send_message(f'Here, have a {category} GIF!\n{response_text}')
-        else:
-            await interaction.response.send_message("This command can only be used in NSFW channels.")
+        response_text = FunctionController.handle_response(category, interaction.user.id)
+        await interaction.response.send_message(f'Here, have a {category}!\n{response_text}')
 
 
     @client.tree.command(name="halal_check", description="Check how halal or haram your friend is.")
