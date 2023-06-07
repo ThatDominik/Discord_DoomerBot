@@ -34,7 +34,8 @@ class DoomerBot(discord.Client):
             channel = self.get_channel(channel_id)
             picture = FunctionController.handle_response(
                 random.choice(["hentai", "neko", "trap", "hentai", "neko", "blowjob", "waifu", "trap", "bonk"]),
-                "doomer")
+                "doomer"
+            )
 
             await channel.send(f"Your daily waifu!\n{picture}")
 
