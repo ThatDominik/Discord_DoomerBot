@@ -33,7 +33,7 @@ class DoomerBot(discord.Client):
         for channel_id in FunctionController.load_channel_id():
             channel = self.get_channel(channel_id)
             picture = FunctionController.handle_response(
-                random.choice(["hentai", "neko", "trap", "hentai", "neko", "blowjob", "waifu", "trap", "bonk"]),
+                random.choice(["hentai", "neko", "trap", "hentai", "neko", "blowjob", "waifu", "vtuber", "feet", "bonk"]),
                 "doomer"
             )
 
