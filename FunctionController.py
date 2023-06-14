@@ -40,10 +40,10 @@ def load_channel_id():
     return id_array
 
 
-def handle_response(message, user_id) -> str:
-    message = message.upper()
-    if message in Constants.commands:
-        command = Constants.commands[message]
+def handle_response(request, user_id) -> str:
+    request = request.upper()
+    if request in Constants.commands:
+        command = Constants.commands[request]
         log_karma(user_id, command["karma"])
         return command["client"].get_link(command["category"])
     else:

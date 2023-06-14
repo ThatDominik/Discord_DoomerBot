@@ -1,9 +1,11 @@
+import io
 from typing import Literal
+import aiohttp
 import discord
 from discord import app_commands
 import os
 from dotenv import load_dotenv, find_dotenv
-import Constants # Not sure why, but I get import error when I delete this. Like WTF is this language
+import Constants  # Not sure why, but I get import error when I delete this. Like WTF is this language
 import DoomerBot
 import FunctionController
 
@@ -38,8 +40,13 @@ if __name__ == '__main__':
             category: Literal['neko', 'hentai', 'trap', 'blowjob', 'cum', 'lesbian', 'pussy', 'ahegao', 'vtuber', 'feet']
     ):
         if interaction.channel.nsfw:
-            response_text = FunctionController.handle_response(category, interaction.user.id)
-            await interaction.response.send_message(f'Here, have a {category}!\n{response_text}')
+            # Send image as spoiler, so you don't have to fear questionable anime shit every time you start discord
+            url = FunctionController.handle_response(category, interaction.user.id)
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as resp:
+                    img = await resp.read()
+                    with io.BytesIO(img) as file:
+                        await interaction.response.send_message(f'Here, have a {category}!', file=discord.File(file, url, spoiler=True))
         else:
             await interaction.response.send_message("This command can only be used on NSFW channels.")
 
@@ -52,7 +59,6 @@ if __name__ == '__main__':
     ):
         response_text = FunctionController.handle_response(category, interaction.user.id)
         await interaction.response.send_message(f'Here, have a {category}!\n{response_text}')
-
 
     @client.tree.command(name="halal_check", description="Check how halal or haram your friend is.")
     @app_commands.describe(victim="Person you want to halal check.")
