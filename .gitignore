@@ -1,3 +1,4 @@
 .env
 /resources/channel_id.txt
 /resources/karma_log.txt
+/log.txt

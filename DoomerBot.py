@@ -1,6 +1,7 @@
 import datetime
 import io
 import random
+import time
 
 import aiohttp
 from discord.ext import tasks
@@ -30,20 +31,29 @@ class DoomerBot(discord.Client):
         # await self.tree.sync(guild=None)
         await self.tree.sync()
         print(f'Logged in as {self.user} (ID: {self.user.id})')
+        FunctionController.log_event(1, "Bot started.")
 
     @tasks.loop(time=datetime.time(hour=19, minute=00))  # task runs every day at 19:00 utc
     async def daily_feed_send(self):
-        for channel_id in FunctionController.load_channel_id():
-            channel = self.get_channel(channel_id)
-            url = FunctionController.handle_response(
-                random.choice(["hentai", "neko", "trap", "hentai", "neko", "blowjob", "waifu", "vtuber", "feet", "bonk"]),
-                "doomer"
-            )
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    img = await resp.read()
-                    with io.BytesIO(img) as file:
-                        await channel.send(f'Your daily waifu!',file=discord.File(file, url, spoiler=True))
+        connected = FunctionController.connected()
+        while not connected:
+            FunctionController.log_event(2, "Daily feed function sleeping due to bad internet connection.")
+            time.sleep(60)
+            connected = FunctionController.connected()
+        try:
+            for channel_id in FunctionController.load_channel_id():
+                channel = self.get_channel(channel_id)
+                url = FunctionController.handle_response(
+                    random.choice(["hentai", "neko", "trap", "hentai", "neko", "blowjob", "waifu", "vtuber", "feet", "bonk"]),
+                    "doomer"
+                )
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(url) as resp:
+                        img = await resp.read()
+                        with io.BytesIO(img) as file:
+                            await channel.send(f'Your daily waifu!',file=discord.File(file, url, spoiler=True))
+        except Exception as error:
+            FunctionController.log_event(3, f"Error during daily feed {error=}\n \t {type(error)=}")
 
     @daily_feed_send.before_loop
     async def before_my_task(self):
