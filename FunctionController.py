@@ -1,3 +1,6 @@
+import datetime
+import urllib
+
 import Constants
 import json
 import os
@@ -87,3 +90,25 @@ def is_repeated(image_url):
 
     last_images.append(image_url)
     return False
+
+
+def log_event(severity, message):
+    with open(os.getenv("EVENT_LOG"), "a") as file:
+        log = ""
+        if severity == 1:
+            log = "INFO"
+        elif severity == 2:
+            log = "WARNING"
+        elif severity >= 3:
+            log = "ERROR"
+        file.write(f"{log} {datetime.datetime.now()} -> {message}\n")
+
+
+def connected():
+    try:
+        urllib.request.urlopen("http://google.com")
+        log_event(1, "Connection check passed.")
+        return True
+    except:
+        log_event(3, "Conection check failed, bot is not connected to the internet.")
+        return False

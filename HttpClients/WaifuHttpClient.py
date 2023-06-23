@@ -1,5 +1,6 @@
 import json
 import requests
+import FunctionController
 from FunctionController import is_repeated
 
 
@@ -15,8 +16,10 @@ class WaifuHttpClient:
             if url:
                 if not is_repeated(url):
                     return url
+                FunctionController.log_event(1, f"Url repeat for {category} category")
                 return self.get_link(category)
             else:
-                return "URL not found in API response!"
+                FunctionController.log_event(3, "URL not found in API response.")
         else:
-            return "Failed to retrieve data from API!"
+            FunctionController.log_event(3, f"Failed to retrieve data from API. Response status code {response.status_code}")
+        return

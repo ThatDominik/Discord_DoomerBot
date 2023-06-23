@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     @client.event
     async def on_guild_join(guild):
-        print("bot joined a new server")
+        FunctionController.log_event(1, "Bot connected to a new server")
 
 
     @client.tree.command(name="register", description="Registers this channel for daily feed.")
@@ -40,13 +40,14 @@ if __name__ == '__main__':
             category: Literal['neko', 'hentai', 'trap', 'blowjob', 'cum', 'lesbian', 'pussy', 'ahegao', 'vtuber', 'feet']
     ):
         if interaction.channel.nsfw:
+            await interaction.response.defer()  # I can send message with shit instead of defering
             # Send image as spoiler, so you don't have to fear questionable anime shit every time you start discord
             url = FunctionController.handle_response(category, interaction.user.id)
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as resp:
                     img = await resp.read()
                     with io.BytesIO(img) as file:
-                        await interaction.response.send_message(f'Here, have a {category}!', file=discord.File(file, url, spoiler=True))
+                        await interaction.followup.send(f'Here, have a {category}!', file=discord.File(file, url, spoiler=True))
         else:
             await interaction.response.send_message("This command can only be used on NSFW channels.")
 
