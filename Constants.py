@@ -22,5 +22,5 @@ commands = {
     "LESBIAN": {"client": NEKO_API, "category": "lesbian", "karma": -15},
     "PUSSY": {"client": NEKO_API, "category": "pussy", "karma": -5},
     "AHEGAO": {"client": GELBOORU_API, "category": "ahegao", "karma": -10},
-    "VTUBER": {"client": GELBOORU_API, "category": "hololive_english", "karma": -10}
+    "VTUBER": {"client": GELBOORU_API, "category": "virtual_youtuber+nude", "karma": -10}
 }
