@@ -12,7 +12,7 @@ KARMA_LOG = "karma_log.txt"
 EVENT_LOG = "log.txt"
 IMAGE_REPEAT_BUFFER = 30
 ```
-The .txt files for channels and karma log will generate automagically, but I didn't implement that feature yet, so you will need to create them manually. 
+The .txt files for channels and karma log will generate automagically. 
 
 IMAGE_REPEAT_BUFFER specifies the number of previous image links the bot checks the new api responses against to prevent 
 repeating the same images.

@@ -2,7 +2,7 @@ import datetime
 import io
 import random
 import time
-
+from zoneinfo import ZoneInfo
 import aiohttp
 from discord.ext import tasks
 import discord
@@ -33,7 +33,7 @@ class DoomerBot(discord.Client):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
         FunctionController.log_event(1, "Bot started.")
 
-    @tasks.loop(time=datetime.time(hour=19, minute=00))  # task runs every day at 19:00 utc
+    @tasks.loop(time=datetime.time(hour=21, minute=00, tzinfo=ZoneInfo("Europe/Prague")))
     async def daily_feed_send(self):
         connected = FunctionController.connected()
         while not connected:
@@ -41,7 +41,7 @@ class DoomerBot(discord.Client):
             time.sleep(60)
             connected = FunctionController.connected()
         try:
-            for channel_id in FunctionController.load_channel_id():
+            for channel_id in FunctionController.load_channel_ids():
                 channel = self.get_channel(channel_id)
                 url = FunctionController.handle_response(
                     random.choice(["hentai", "neko", "trap", "hentai", "neko", "blowjob", "waifu", "vtuber", "feet", "bonk"]),

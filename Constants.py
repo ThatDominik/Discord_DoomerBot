@@ -18,7 +18,7 @@ commands = {
     "BLOWJOB": {"client": WAIFU_API, "category": "nsfw/blowjob", "karma": -15},
     "NOM": {"client": WAIFU_API, "category": "sfw/nom", "karma": 15},
     "CUM": {"client": NEKO_API, "category": "cum", "karma": -10},
-    "FEET": {"client": NEKO_API, "category": "feet", "karma": 10},
+    "FEET": {"client": GELBOORU_API, "category": "foot_focus", "karma": 10},
     "LESBIAN": {"client": NEKO_API, "category": "lesbian", "karma": -15},
     "PUSSY": {"client": NEKO_API, "category": "pussy", "karma": -5},
     "AHEGAO": {"client": GELBOORU_API, "category": "ahegao", "karma": -10},

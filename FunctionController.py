@@ -12,7 +12,7 @@ image_buffer = int(os.getenv("IMAGE_REPEAT_BUFFER"))
 
 
 def save_channel_id(channel_id):
-    if channel_id in load_channel_id():
+    if channel_id in load_channel_ids():
         return "This channel is already subscribed to the daily waifu feed."
 
     with open(os.getenv("DAILY_CHANNELS"), "a") as file:
@@ -22,7 +22,7 @@ def save_channel_id(channel_id):
 
 
 def remove_channel_id(channel_id):
-    channels = load_channel_id()
+    channels = load_channel_ids()
     if channel_id not in channels:
         return "This channel is not subscribed to daily feed."
 
@@ -34,29 +34,35 @@ def remove_channel_id(channel_id):
     return "This channel will no longer receive daily spicy pictures."
 
 
-def load_channel_id():
-    with open(os.getenv("DAILY_CHANNELS"), "r") as file:
-        id_array = file.readlines()
-        for i in range(len(id_array)):
-            id_array[i] = int(id_array[i].strip())
-        file.close()
-    return id_array
+def load_channel_ids():
+    try:
+        with open(os.getenv("DAILY_CHANNELS"), "r") as file:
+            id_array = file.readlines()
+            for i in range(len(id_array)):
+                id_array[i] = int(id_array[i].strip())
+            file.close()
+        return id_array
+    except FileNotFoundError:
+        log_event(1, "File for subscribed channel IDs doesn't exist yet.")
+        return []
 
 
 def handle_response(request, user_id) -> str:
     request = request.upper()
     if request in Constants.commands:
         command = Constants.commands[request]
-        log_karma(user_id, command["karma"])
-        return command["client"].get_link(command["category"])
+        try:
+            log_karma(user_id, command["karma"])
+            return command["client"].get_link(command["category"])
+        except Exception as err:
+            log_event(3, f"{err=}")
+            return "Something went wrong"
     else:
         return "This category is not implemented yet"
 
 
 def log_karma(user_id, karma):
-    # I have to open the file twice, because in r+ mode it appends the json to the existing file when I want to rewrite.
-    with open(os.getenv("KARMA_LOG"), "r") as file:
-        users_str = file.read()
+    users_str = load_karma_data()
 
     with open(os.getenv("KARMA_LOG"), "w") as file:
         if len(users_str) == 0:
@@ -73,12 +79,23 @@ def log_karma(user_id, karma):
 
 
 def get_user_karma(user_id):
-    with open(os.getenv("KARMA_LOG"), "r") as file:
-        karma_list = file.read()
-        users = json.loads(karma_list)
-        if str(user_id) in users:
-            return users[str(user_id)]
-        return 0
+    karma_list = load_karma_data()
+    users = json.loads(karma_list)
+    if str(user_id) in users:
+        return users[str(user_id)]
+    return 0
+
+
+def load_karma_data():
+    try:
+        with open(os.getenv("KARMA_LOG"), "r") as file:
+            karma_list = file.read()
+            return karma_list
+    except FileNotFoundError:
+        with open (os.getenv("KARMA_LOG"), "w") as file:
+            file.close()
+        log_event(1, "Creating file for user karma log.")
+        return ""
 
 
 def is_repeated(image_url):
