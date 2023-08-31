@@ -16,7 +16,7 @@ class GelbooruHttpClient:
             post_list = json_data.get("post", None)
             if len(post_list) == 0:
                 FunctionController.log_event(3, "Api response list is empty!")
-                return
+                return self.get_link(category)
 
             url = post_list[0].get("file_url", None)
             if url:
@@ -28,4 +28,4 @@ class GelbooruHttpClient:
                 FunctionController.log_event(3, "URL not found in API response.")
         else:
             FunctionController.log_event(3, f"Failed to retrieve data from API. Response status code {response.status_code}")
-        return
+            return self.get_link(category)
