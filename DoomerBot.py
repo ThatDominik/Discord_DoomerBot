@@ -18,6 +18,7 @@ class DoomerBot(discord.Client):
 
     async def setup_hook(self) -> None:
         self.daily_feed_send.start()
+        self.daily_n_word_send.start()
 
     async def on_ready(self):
         """
@@ -56,5 +57,26 @@ class DoomerBot(discord.Client):
             FunctionController.log_event(3, f"Error during daily feed {error=}\n \t {type(error)=}")
 
     @daily_feed_send.before_loop
+    async def before_my_task(self):
+        await self.wait_until_ready()
+
+    @tasks.loop(time=datetime.time(hour=9, minute=00, tzinfo=ZoneInfo("Europe/Prague")))
+    async def daily_n_word_send(self):
+        connected = FunctionController.connected()
+        while not connected:
+            FunctionController.log_event(2, "Daily feed function sleeping due to bad internet connection.")
+            time.sleep(60)
+            connected = FunctionController.connected()
+        try:
+            for channel_id in FunctionController.load_channel_ids():
+                channel = self.get_channel(channel_id)
+                url = FunctionController.handle_response('nword', "doomer")
+                print(url)
+                await channel.send(f'The N-word for today is **{url}**.')
+
+        except Exception as error:
+            FunctionController.log_event(3, f"Error during daily feed {error=}\n \t {type(error)=}")
+
+    @daily_n_word_send.before_loop
     async def before_my_task(self):
         await self.wait_until_ready()

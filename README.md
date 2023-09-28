@@ -20,6 +20,7 @@ repeating the same images.
 ``` 
 pip install discord.py
 pip install python-dotenv
+pip install bs4
 ```
 - Now you can run main.py to start the bot.
 ``` 
