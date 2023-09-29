@@ -71,7 +71,6 @@ class DoomerBot(discord.Client):
             for channel_id in FunctionController.load_channel_ids():
                 channel = self.get_channel(channel_id)
                 url = FunctionController.handle_response('nword', "doomer")
-                print(url)
                 await channel.send(f'The N-word for today is **{url}**.')
 
         except Exception as error:
