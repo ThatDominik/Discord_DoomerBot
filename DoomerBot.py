@@ -4,6 +4,7 @@ import random
 import time
 from zoneinfo import ZoneInfo
 import aiohttp
+from unidecode import unidecode
 from discord.ext import tasks
 import discord
 from discord import app_commands
@@ -70,8 +71,11 @@ class DoomerBot(discord.Client):
         try:
             for channel_id in FunctionController.load_channel_ids():
                 channel = self.get_channel(channel_id)
-                url = FunctionController.handle_response('nword', "doomer")
-                await channel.send(f'The N-word for today is **{url}**.')
+                word = FunctionController.handle_response('nword', "doomer")
+                link = 'https://cestina20.cz/slovnik/' + unidecode(word).replace(' ', '-')
+                embed = discord.Embed()
+                embed.description = f'The N-word for today is **[{word}]({link})**.'
+                await channel.send(embed=embed)
 
         except Exception as error:
             FunctionController.log_event(3, f"Error during daily feed {error=}\n \t {type(error)=}")

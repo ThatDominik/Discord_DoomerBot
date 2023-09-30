@@ -4,7 +4,7 @@ https://gelbooru.com/.
 
 # What do you need to start?
 - Clone this repo on a server of your choice.
-- Create a .env file in Discord_DoomerBot folder where you need to define the following enviromental variables.
+- Create a .env file in Discord_DoomerBot folder where you need to define the following environmental variables.
 ```
 TOKEN = "YOUR DISCORD BOT TOKEN"
 DAILY_CHANNELS = "channel_id.txt"
@@ -21,6 +21,8 @@ repeating the same images.
 pip install discord.py
 pip install python-dotenv
 pip install beautifulsoup4
+pip install Unidecode
+pip install 
 ```
 - Now you can run main.py to start the bot.
 ``` 
