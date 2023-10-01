@@ -16,13 +16,13 @@ The .txt files for channels and karma log will generate automagically.
 
 IMAGE_REPEAT_BUFFER specifies the number of previous image links the bot checks the new api responses against to prevent 
 repeating the same images.
-- You will need to install discord.py and python-dotenv packages with the following commands.
+- You will need to install a few packages with the following commands.
 ``` 
 pip install discord.py
 pip install python-dotenv
+pip install requests
 pip install beautifulsoup4
 pip install Unidecode
-pip install 
 ```
 - Now you can run main.py to start the bot.
 ``` 
